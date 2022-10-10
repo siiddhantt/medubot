@@ -1,5 +1,5 @@
 import requests
-
+from telebot.credentials import cookie
 host = ""
 
 def getProducts():
@@ -10,9 +10,9 @@ def getProducts():
     return title
 
 def getOrders():
-    cookie = {'connect.sid': 's%3Aa3iMHZk03QwSW6eSDYHR813XdidRpc06.gvO0cjCTakU8buuHVeoVQxsWZbfjwBDX9djtMsfrAhc'}
+    cook = {'connect.sid': cookie}
     URL = host + "/admin/orders"
-    r = requests.get(url = URL,cookies=cookie)
+    r = requests.get(url = URL,cookies=cook)
     data = r.json()
     title = data["orders"]
     return data
