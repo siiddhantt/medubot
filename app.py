@@ -50,7 +50,7 @@ def respond():
                 orders = getOrders()
                 for o in orders:
                     s += "ID: %s\nSubtotal: %s\nPaid Total: %s\n" % (
-                                        o["id"], o["subtotal"], o["paid_total"])
+                        o["id"], o["subtotal"], o["paid_total"])
                     s += "\n"
                 bot.sendMessage(chat_id=chat_id, text=s,
                                 reply_to_message_id=msg_id)
