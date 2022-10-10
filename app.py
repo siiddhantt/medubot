@@ -45,6 +45,15 @@ def respond():
                     s += "\n"
                 bot.sendMessage(chat_id=chat_id, text=s,
                                 reply_to_message_id=msg_id)
+            elif text == "/admin/orders":
+                s = ""
+                orders = getOrders()
+                for o in orders:
+                    s += "ID: %s\nSubtotal: %s\nPaid Total: %s\n" % (
+                                        o["id"], o["subtotal"], o["paid_total"])
+                    s += "\n"
+                bot.sendMessage(chat_id=chat_id, text=s,
+                                reply_to_message_id=msg_id)
             # bot.sendPhoto(chat_id=chat_id, photo=url,
             #               reply_to_message_id=msg_id)
         except Exception:
