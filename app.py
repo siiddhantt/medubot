@@ -39,15 +39,19 @@ def respond():
             if text == "/products":
                 s = ""
                 products = getProducts()
+                if len(products) == 0:
+                    s = "No products!"
                 for p in products:
                     s += "Name: %s\nID: %s\nDescription: %s\n" % (
                         p["title"], p["id"], p["description"])
                     s += "\n"
                 bot.sendMessage(chat_id=chat_id, text=s,
                                 reply_to_message_id=msg_id)
-            elif text == "/admin/orders":
+            elif text == "/orders":
                 s = ""
                 orders = getOrders()
+                if len(orders) == 0:
+                    s = "No orders!"
                 for o in orders:
                     s += "ID: %s\nSubtotal: %s\nPaid Total: %s\n" % (
                         o["id"], o["subtotal"], o["paid_total"])
