@@ -1,8 +1,11 @@
+from telebot.apis import *
+from telebot.credentials import bot_token, bot_user_name, URL, cookie
 import re
 from flask import Flask, request
 import telegram
-from telebot.credentials import bot_token, bot_user_name, URL
-from telebot.apis import *
+import importlib
+import telebot.credentials
+importlib.reload(telebot.credentials)
 
 
 global bot
@@ -33,7 +36,6 @@ def respond():
         # send the welcoming message
         bot.sendMessage(chat_id=chat_id, text=bot_welcome,
                         reply_to_message_id=msg_id)
-
     else:
         try:
             if text == "/products":
@@ -42,10 +44,10 @@ def respond():
                 if len(products) == 0:
                     s = "No products!"
                 for p in products:
-                    s += "Name: %s\nID: %s\nDescription: %s\n" % (
-                        p["title"], p["id"], p["description"])
+                    s += "ID: `%s`\nName: *%s*\nDescription: %s\n" % (
+                        p["id"], p["title"], p["description"])
                     s += "\n"
-                bot.sendMessage(chat_id=chat_id, text=s,
+                bot.sendMessage(chat_id=chat_id, text=s, parse_mode="Markdown",
                                 reply_to_message_id=msg_id)
             elif text == "/orders":
                 s = ""
@@ -53,13 +55,30 @@ def respond():
                 if len(orders) == 0:
                     s = "No orders!"
                 for o in orders:
-                    s += "ID: %s\nSubtotal: %s\nPaid Total: %s\n" % (
-                        o["id"], o["subtotal"], o["paid_total"])
+                    s += "ID: `%s`\nSubtotal: %s\nPaid Total: %s\nStatus: %s\nPayment Status: %s\n" % (
+                        o["id"], o["subtotal"], o["paid_total"], o["status"], o["payment_status"])
                     s += "\n"
-                bot.sendMessage(chat_id=chat_id, text=s,
+                bot.sendMessage(chat_id=chat_id, text=s, parse_mode="Markdown",
                                 reply_to_message_id=msg_id)
-            # bot.sendPhoto(chat_id=chat_id, photo=url,
-            #               reply_to_message_id=msg_id)
+            elif text[0:9] == "/product " and len(text) > 9:
+                pid = text[9:]
+                s = ""
+                p = getProduct(pid)
+                if "product" in p:
+                    p = p["product"]
+                    s = "ID: %s\n\nName: %s\n\nDescription: %s\n" % (
+                        p["id"], p["title"], p["description"])
+                    url = p["thumbnail"]
+                    bot.sendPhoto(chat_id=chat_id, caption=s, photo=url,
+                                  reply_to_message_id=msg_id)
+                else:
+                    s = "No product with that product-ID found!"
+                    bot.sendMessage(chat_id=chat_id, text=s,
+                                    reply_to_message_id=msg_id)
+            elif text == "/auth":
+                import telebot.auth
+                telebot.auth
+                print(cookie)
         except Exception:
             # if things went wrong
             bot.sendMessage(
@@ -70,7 +89,9 @@ def respond():
 
 @app.route('/set_webhook', methods=['GET', 'POST'])
 def set_webhook():
-    s = bot.setWebhook('{URL}{HOOK}'.format(URL=URL, HOOK=TOKEN))
+    s = True
+    s = bot.setWebhook('{URL}{HOOK}'.format(
+        URL=URL, HOOK=TOKEN), drop_pending_updates=True)
     if s:
         return "Webhook setup successful!"
     else:

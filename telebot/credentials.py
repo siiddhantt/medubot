@@ -1,4 +1,6 @@
 bot_token = ""
 bot_user_name = ""
 URL = ""
+admin_email = ""
+admin_password = ""
 cookie = ""
