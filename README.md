@@ -6,9 +6,9 @@
 
 ### Participants
 
-Siddhant Rai - @siiddhantt
+Siddhant Rai - ![siiddhantt](https://github.com/siiddhantt) - wh1tew0lf#2953 (Discord)
 
-Prashant Singh - @PrashantS360
+Prashant Singh - ![PrashantS360](https://github.com/prashants360)
 
 ### Description
 
