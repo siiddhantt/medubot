@@ -15,6 +15,15 @@ Prashant Singh - ![PrashantS360](https://github.com/prashants360)
 MeduBot provides an integration between your Medusajs-based backend/store and Telegram. It is a python implementation to use a telegram bot 
 as a store-manager/admin.
 
+#### Backend
+```
+https://github.com/siiddhantt/digimart-medusa-backend
+```
+#### Backend-Deployed
+```
+https://digimart-medusa-backend.herokuapp.com
+```
+
 ### Preview
 
 A sample bot is hosted on Heroku with it's username on telegram being @medusajs_bot.
